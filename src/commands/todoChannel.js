@@ -1,6 +1,37 @@
 const discord = require('discord.js');
 const DataHandler = require('../utils/DataHandler');
 const ArgsProcessor = require('../utils/ArgsProcessor');
+const HelpCmd = require('./help');
+
+/**
+ * @param {discord.TextChannel} channel
+ */
+const setupChannel = async (channel, botData, deleteOld) => {
+
+	if(deleteOld){
+		const oldChannel = await channel.client.channels.fetch(botData.todo_channel);
+		await oldChannel.messages.fetch(botData.todo_message).delete();
+		await oldChannel.messages.fetch(botData.help_message).delete();
+	}
+
+	const todoEmbed = {
+		title: 'ToDo List',
+		description: 'No items on your ToDo list at the moment!',
+	};
+
+	const todoMessage = await channel.send({ embed: todoEmbed });
+	const helpMessage = await channel.send({
+		embed: HelpCmd.extras.helpEmbed(channel.guild),
+	});
+
+	await todoMessage.pin();
+	await helpMessage.pin();
+
+	botData.todo_message = todoMessage.id;
+	botData.help_message = helpMessage.id;
+
+	DataHandler.saveData();
+};
 
 /**
  * @param {discord.Message} msg
@@ -20,6 +51,7 @@ const execute = async (msg, args) => {
 			);
 			return true;
 		case 1:
+		case 2:
 			const channelId =
 				args[0] === 'this'
 					? msg.channel.id
@@ -32,6 +64,25 @@ const execute = async (msg, args) => {
 							(channel) => '' + channel.id === channelId
 					  );
 			if (!channel) break;
+
+			if (
+				botData.todo_channel &&
+				(args.length === 1 || args[1].toLowerCase() !== 'confirm')
+			) {
+				await msg.channel.send(
+					`You have already set your todo channel! If you want to change it, type \`${
+						botData.prefix || process.env.DEFAULT_PREFIX
+					}${module.exports.usage} confirm\``
+				);
+				return false;
+			}
+
+			await setupChannel(
+				channel,
+				botData,
+				botData.total_channel ||
+					(args.length === 3 && args[1].toLowerCase() !== 'confirm')
+			);
 
 			botData.todo_channel = channelId;
 			DataHandler.saveData();

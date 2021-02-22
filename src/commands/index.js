@@ -39,7 +39,7 @@ const handle = async (msg) => {
 				const commandResult = await command.execute(msg, tokens, {
 					command,
 				});
-				console.log(
+				console.log( // Logging
 					(commandResult ? chalk.green : chalk.red)(
 						`[${msg.guild.name}#${msg.channel.name}(${msg.author.tag})] ${msg.content}`
 					)
