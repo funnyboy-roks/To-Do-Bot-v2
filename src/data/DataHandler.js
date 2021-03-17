@@ -14,8 +14,20 @@ const Discord = require('discord.js');
 let botData = {};
 
 const loadData = () => {
-	const data = fs.readFileSync(process.env.DATA_FILE, 'utf-8');
-	return botData = JSON.parse(data);
+	let data = '';
+	if (!fs.existsSync(process.env.DATA_FILE)) {
+		data = JSON.stringify(
+			{
+				guilds: {},
+			},
+			null,
+			4
+		);
+		fs.writeFileSync(process.env.DATA_FILE, data);
+	} else {
+		data = fs.readFileSync(process.env.DATA_FILE, 'utf-8');
+	}
+	return (botData = JSON.parse(data));
 };
 
 const saveData = () => {
@@ -30,11 +42,18 @@ const setGuilds = (guilds) => {
 	loadData();
 	guilds.forEach((guild) => {
 		if (!Object.keys(botData.guilds).includes('' + guild.id)) {
-			botData.guilds['' + guild.id] = {};
+			botData.guilds['' + guild.id] = {
+				todo_items: [],
+			};
 		}
 	});
 };
 
 const getData = () => botData;
 
-module.exports = { loadData, saveData, setGuilds, getData };
+module.exports = {
+	loadData,
+	saveData,
+	setGuilds,
+	getData,
+};

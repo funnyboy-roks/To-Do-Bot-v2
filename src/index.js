@@ -1,11 +1,14 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const DataHandler = require('./utils/DataHandler');
+const DataHandler = require('./data/DataHandler');
 DataHandler.loadData();
 const CommandHandler = require('./commands');
+const utils = require('./utils/index');
 
 const client = new Discord.Client();
+
+global.botClient = client;
 
 client.on('ready', () => {
 	DataHandler.setGuilds(client.guilds.cache);
@@ -25,6 +28,8 @@ client.on('ready', () => {
 				.join(', ')
 		)}`
 	);
+
+	utils.updateMessages();
 });
 
 client.on('guildCreate', (guild) => {
@@ -47,12 +52,13 @@ client.on('guildCreate', (guild) => {
 			},
 			{
 				name: 'Help',
-				value: 'You can view all commands by using `!help` in your discord server.'
+				value:
+					'You can view all commands by using `!help` in your discord server.',
 			},
 			{
 				name: 'Support',
-				value: `If you need support for this bot, join my discord server [here](${process.env.DISCORD_INVITE})`
-			}
+				value: `If you need support for this bot, join my discord server [here](${process.env.DISCORD_INVITE})`,
+			},
 		],
 	};
 

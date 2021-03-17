@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const { getData: botData } = require('../utils/DataHandler');
+const { getData: botData } = require('../data/DataHandler');
 
 const helpEmbed = (guild, author=null) => {
 	const { commands } = require('./index.js');

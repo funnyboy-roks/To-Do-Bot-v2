@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const DataHandler = require('../utils/DataHandler');
+const DataHandler = require('../data/DataHandler');
 const ArgsProcessor = require('../utils/ArgsProcessor');
 const HelpCmd = require('./help');
 

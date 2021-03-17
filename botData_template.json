@@ -1,0 +1,24 @@
+{
+	"guilds": {
+		"template": {
+			"prefix": "!",
+			"todo_channel": "channel_id",
+			"todo_message": "message_id",
+			"help_message": "message_id",
+			"todo_items": {
+				"category": [
+					{
+						"name": "Item's name",
+						"added_by": "ID",
+						"added_on": "Date Added",
+						"importance": "0-3 showing how important (0=default)",
+						"completed": "true/false",
+						"category": "the category of the item"
+					}
+				],
+				"default": [
+				]
+			}
+		}
+	}
+}

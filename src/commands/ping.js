@@ -1,4 +1,3 @@
-// Ping
 const discord = require('discord.js');
 
 /**

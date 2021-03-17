@@ -1,12 +1,15 @@
 const chalk = require('chalk');
 const discord = require('discord.js');
-const { getData: botData } = require('../utils/DataHandler');
+const { getData: botData } = require('../data/DataHandler');
 
 const commands = {
-	ping: require('./ping'), // !ping
+	// ping: require('./ping'), // !ping
 	help: require('./help'), // !help
 	prefix: require('./prefix'), // !prefix [prefix]
 	todochannel: require('./todoChannel'), // !todoChannel [channel]
+	add: require('./add'), // !add [[category]] <itemName>
+	complete: require('./complete'), // !complete [category] <item>
+	info: require('./info'), // !info [category] <item>
 };
 
 /**

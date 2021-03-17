@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const DataHandler = require('../utils/DataHandler');
+const DataHandler = require('../data/DataHandler');
 
 /**
  * @param {Discord.Message} msg
